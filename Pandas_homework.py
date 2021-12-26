@@ -229,10 +229,14 @@ from pandas import merge
 
 ##     5․ Գտնել այն ռեժիսորներին, ովքեր դատասեթում ունեն 1-ից
 ##     ավել ֆիլմ և գտնել նվազագույն միջին ռեյտինգ ունեցողին։
+
+
 df = pd.read_csv('./imdb_top_1000.csv')
 dx = df.groupby('Director').size().reset_index(name='Repetition Count')
 dy = dx.loc[(dx['Repetition Count'] > 1)]
 dz = df[dx['Director'].isin(dy['Director'])]
+
+
 # group = dy.groupby('Director')
 # ag = group.agg({'IMDB_Rating': ['min', 'mean', 'max'], 'No_of_Votes': ['max', 'std']})
 # ag['Count'] = group.size()
