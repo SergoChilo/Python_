@@ -250,5 +250,5 @@ from pandas import merge
 
 
 ##     8. Սորտավորել դատասեթը ըստ տարեթվերի և այն պահել նոր ֆայլի մեջ
-df = pd.read_csv('./imdb_top_1000.csv')
-print((df.sort_values('Released_Year').to_csv('saved_ratings.csv', index=False)))
+#df = pd.read_csv('./imdb_top_1000.csv')
+#print((df.sort_values('Released_Year').to_csv('saved_ratings.csv', index=False)))
