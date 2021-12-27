@@ -220,6 +220,7 @@ from pandas import merge
 
 
 ##     4. Հաշվել այդ ռեժիսորի ֆիլմերի միջին, առավելագույն և նվազագույն ռեյտինգները։
+
 # df = pd.read_csv('./imdb_top_1000.csv')
 # dr = df.loc[df['Director'] == 'Alfred Hitchcock']
 # group = dr.groupby('Director')
@@ -230,24 +231,43 @@ from pandas import merge
 ##     5․ Գտնել այն ռեժիսորներին, ովքեր դատասեթում ունեն 1-ից
 ##     ավել ֆիլմ և գտնել նվազագույն միջին ռեյտինգ ունեցողին։
 
-
 # df = pd.read_csv('./imdb_top_1000.csv')
 # dx = df.groupby('Director').size().reset_index(name='Repetition Count')
 # dy = dx.loc[(dx['Repetition Count'] > 1)]
-# dz = df[dx['Director'].isin(dy['Director'])]
+# group = df.groupby('Director')
+# print(group.mean())
 
+##     6. Տպել Meta score սյան միջին և միջին քառակուսային շեղման արժեքները բոլոր ռեժիսորների համար
 
-# group = dy.groupby('Director')
-# ag = group.agg({'IMDB_Rating': ['min', 'mean', 'max'], 'No_of_Votes': ['max', 'std']})
-# ag['Count'] = group.size()
+# df = pd.read_csv('./imdb_top_1000.csv')
+# group = df.groupby('Director')
+# ag = group.agg({'IMDB_Rating': ['mean', 'std']})
 # print(ag)
 
+#     7. Դատասեթում բացակայող արժեքները լրացնել այդ սյան միջին արժեքով։ Եթե սյունը թվային տիպ չունի, պարզապես ջնջել
+#     այդտեղ բացակայող արժեքներին համապատասխան տողերը
 
-# group = dy.groupby('Director')
-# ag = group.agg({'IMDB_Rating': ['min', 'mean', 'max']})
-# ag['Count'] = group.size()
-# print(ag)
-
+df = pd.read_csv('./imdb_top_1000.csv')
+ds = df.fillna(method='ffill').fillna(method='bfill')
+# All ' ' -> to NaN
+df['Poster_Link'].replace('', np.nan, inplace=True)
+df['Released_Year'].replace('', np.nan, inplace=True)
+df['Certificate'].replace('', np.nan, inplace=True)
+df['Genre'].replace('', np.nan, inplace=True)
+df['IMDB_Rating'].replace('', np.nan, inplace=True)
+df['Overview'].replace('', np.nan, inplace=True)
+df['Meta_score'].replace('', np.nan, inplace=True)
+df['Director'].replace('', np.nan, inplace=True)
+df['Star1'].replace('', np.nan, inplace=True)
+df['Star2'].replace('', np.nan, inplace=True)
+df['Star3'].replace('', np.nan, inplace=True)
+df['Star4'].replace('', np.nan, inplace=True)
+df['No_of_Votes'].replace('', np.nan, inplace=True)
+df['Gross'].replace('', np.nan, inplace=True)
+df['Series_Title'].replace('', np.nan, inplace=True)
+# Delete All NaN
+df.dropna(inplace=True)
+print(df)
 
 ##     8. Սորտավորել դատասեթը ըստ տարեթվերի և այն պահել նոր ֆայլի մեջ
 #df = pd.read_csv('./imdb_top_1000.csv')
