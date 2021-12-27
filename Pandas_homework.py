@@ -231,10 +231,10 @@ from pandas import merge
 ##     ավել ֆիլմ և գտնել նվազագույն միջին ռեյտինգ ունեցողին։
 
 
-df = pd.read_csv('./imdb_top_1000.csv')
-dx = df.groupby('Director').size().reset_index(name='Repetition Count')
-dy = dx.loc[(dx['Repetition Count'] > 1)]
-dz = df[dx['Director'].isin(dy['Director'])]
+# df = pd.read_csv('./imdb_top_1000.csv')
+# dx = df.groupby('Director').size().reset_index(name='Repetition Count')
+# dy = dx.loc[(dx['Repetition Count'] > 1)]
+# dz = df[dx['Director'].isin(dy['Director'])]
 
 
 # group = dy.groupby('Director')
@@ -247,3 +247,8 @@ dz = df[dx['Director'].isin(dy['Director'])]
 # ag = group.agg({'IMDB_Rating': ['min', 'mean', 'max']})
 # ag['Count'] = group.size()
 # print(ag)
+
+
+##     8. Սորտավորել դատասեթը ըստ տարեթվերի և այն պահել նոր ֆայլի մեջ
+df = pd.read_csv('./imdb_top_1000.csv')
+print((df.sort_values('Released_Year').to_csv('saved_ratings.csv', index=False)))
