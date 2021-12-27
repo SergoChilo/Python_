@@ -12,7 +12,16 @@ Moves = {
 def shuffle_field():
     field = list(range(1, 17))
     field[-1] = Empty_mark
-    random.shuffle(field)
+
+    possible_moves = list(Moves.keys())
+    applied_moves = 0
+    while applied_moves < 100:
+        random_move = random.choice(possible_moves) # Randome xod is xodov(4)
+        try:
+            field = perform_move(field, random_move) # primenit k polyu sluchayni shag
+            applied_moves += 1
+        except IndexError:
+            continue
     return field
 
 def print_field(field):
