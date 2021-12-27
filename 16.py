@@ -1,6 +1,8 @@
 import random
 
 
+a = input('Enter your name : ')
+print(f'::: Hi {a}, lets start game :::')
 Empty_mark = 'x'
 Moves = {
     'w': -4,
@@ -8,11 +10,11 @@ Moves = {
     'a': -1,
     'd': 1,
     }
+
 # 16 cifr, posledni - Empty_mark -> x
 def shuffle_field():
     field = list(range(1, 17))
     field[-1] = Empty_mark
-
     possible_moves = list(Moves.keys())
     applied_moves = 0
     while applied_moves < 100:
@@ -70,7 +72,7 @@ def main():
             field = perform_move(field, move)
         except IndexError as e:
             print(e)
-    print('Game is finished!')
+    print(f'You Win {a}! CONGRATS !!!!!!!!')
 
 
 
