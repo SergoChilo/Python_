@@ -1,142 +1,60 @@
 import random
-from words import word_list
 
+name = input('Enter your name : ')
+print(f'Hi {name} !!!!!  Let\'s play Hangman!')
+WORDS = ['windows','word', 'apple', 'down', 'hangman']
+Max_Errors = 10
 
-def get_word():
-    word = random.choice(word_list)
-    return word.upper()
-def play(word):
-    word_completion = "_" * len(word)
-    guessed = False
-    guessed_letters = []
-    guessed_words = []
-    tries = 6
-    print("Let's play Hangman!")
-    print(display_hangman(tries))
-    print(word_completion)
-    print("\n")
-    while not guessed and tries > 0:
-        guess = input("Please guess a letter or word: ").upper()
-        if len(guess) == 1 and guess.isalpha():
-            if guess in guessed_letters:
-                print("You already guessed the letter", guess)
-            elif guess not in word:
-                print(guess, "is not in the word.")
-                tries -= 1
-                guessed_letters.append(guess)
-            else:
-                print("Good job,", guess, "is in the word!")
-                guessed_letters.append(guess)
-                word_as_list = list(word_completion)
-                indices = [i for i, letter in enumerate(word) if letter == guess]
-                for index in indices:
-                    word_as_list[index] = guess
-                word_completion = "".join(word_as_list)
-                if "_" not in word_completion:
-                    guessed = True
-        elif len(guess) == len(word) and guess.isalpha():
-            if guess in guessed_words:
-                print("You already guessed the word", guess)
-            elif guess != word:
-                print(guess, "is not the word.")
-                tries -= 1
-                guessed_words.append(guess)
-            else:
-                guessed = True
-                word_completion = word
+#Vibor slova
+def return_random_word():
+    return random.choice(WORDS)
+
+#Ruchnoy vvod
+def handle_user_input():
+    user_input = input('Please guess a letter or word: ')
+    return user_input
+
+#Otobrajenie bukvi esli est
+def get_initial_statuses(word):
+    statuses = []
+    for letter in word:
+        statuses.append(False)
+    return statuses
+
+def is_game_finished(statuses, current_error):
+    if current_error >= Max_Errors:
+        return True
+    for status in statuses:
+        if not status:
+            return False
+    return True
+
+def perform_check_action(word, statuses, letter):
+    if letter not in word:
+        return False
+    for index, l in enumerate(word):
+        if letter == l:
+            statuses[index] = True
+    return True
+
+def print_word(word, statuses):
+    for index, letter in enumerate(word):
+        if statuses[index]:
+            print(letter, end='')
         else:
-            print("Not a valid guess.")
-        print(display_hangman(tries))
-        print(word_completion)
-        print("\n")
-    if guessed:
-        print("Congrats, you guessed the word! You win!")
-    else:
-        print("Sorry, you ran out of tries. The word was " + word + ". Maybe next time!")
-
-
-def display_hangman(tries):
-    stages = [  # final state: head, torso, both arms, and both legs
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |     / \\
-                   -
-                """,
-                # head, torso, both arms, and one leg
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |     / 
-                   -
-                """,
-                # head, torso, and both arms
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |      
-                   -
-                """,
-                # head, torso, and one arm
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|
-                   |      |
-                   |     
-                   -
-                """,
-                # head and torso
-                """
-                   --------
-                   |      |
-                   |      O
-                   |      |
-                   |      |
-                   |     
-                   -
-                """,
-                # head
-                """
-                   --------
-                   |      |
-                   |      O
-                   |    
-                   |      
-                   |     
-                   -
-                """,
-                # initial empty state
-                """
-                   --------
-                   |      |
-                   |      
-                   |    
-                   |      
-                   |     
-                   -
-                """
-    ]
-    return stages[tries]
-
+            print('_', end=' ')
 
 def main():
-    word = get_word()
-    play(word)
-    while input("Play Again? (Y/N) ").upper() == "Y":
-        word = get_word()
-        play(word)
+    word = return_random_word()
+    statuses = get_initial_statuses(word)
+    current_errors = 0
+    while not is_game_finished(statuses, current_errors):
+        print_word(word, statuses)
+        print('Errors left: ', Max_Errors - current_errors)
+        letter = handle_user_input()
+        result = perform_check_action(word, statuses, letter)
+        if not result:
+            current_errors += 1
+    print('Game is finished!')
 
-
-if __name__ == "__main__":
-    main()
+main()
