@@ -1,19 +1,12 @@
-
 class count():
-    lives = 10
-    def init(self, number, lives):
+    number = int(input('Vvedite chislo 1-100 : '))
+    def init(self, number):
         self.number = number
-        self.lives = lives
-    def calc_lives(self):
-        self.lives -= 1
-        if self.lives == 0:
-            print('The program finished !!!!')
-            exit()
-        else:
-            print('You have ' + str(self.lives) + ' lives')
     def calc_number(self):
         if self.number % 10 == 0:
             tas()
+            if self.number % 4 == 0:
+                print('Bajanvuma 4-i')
         elif self.number % 9 == 0:
             inn()
         elif self.number % 8 == 0:
@@ -59,11 +52,11 @@ def ereq():
 def erku():
     print('Bajanvuma 2-i')
 
-
-number = int(input('Vvedite chislo 1-100 : '))
 class hand(count):
-    super().__init__(number)
-h = hand()
-h.calc_lives()
+    def hashvark(self, number):
+        super().__init__(number)
+        super().calc_number()
 
+h = hand()
+h.calc_number()
 
